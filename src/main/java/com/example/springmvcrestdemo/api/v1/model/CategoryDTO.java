@@ -1,6 +1,9 @@
 package com.example.springmvcrestdemo.api.v1.model;
 
+import lombok.Data;
+
+@Data
 public class CategoryDTO {
-    private long id;
+    private Long id;
     private String name;
 }
