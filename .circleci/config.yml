@@ -6,10 +6,14 @@ version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
 
+    docker: # run the steps with Docker
+                         - image: circleci/openjdk:8-jdk-browsers # ...with this image as the primary container; this is where all `steps` will run
+
     working_directory: ~/spring-mvc-rest-demo # directory where steps will run
 
-    docker: # run the steps with Docker
-      - image: circleci/openjdk:8-jdk-browsers # ...with this image as the primary container; this is where all `steps` will run
+    environment:
+      # Customize the JVM maximum heap limit
+      MAVEN_OPTS: -Xmx3200m
 
     steps: # a collection of executable commands
 
@@ -26,6 +30,9 @@ jobs: # a collection of steps
             - ~/.m2
           key: spring-mvc-rest-demo-{{ checksum "pom.xml" }}
 
+
+      #----------------------
+
       - run: mvn package # run the actual tests
 
       - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard.
@@ -36,3 +43,7 @@ jobs: # a collection of steps
           # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: target/demo-java-spring-0.0.1-SNAPSHOT.jar
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+
+      #-----------------------
+            # run tests!
+            #- run: mvn integration-test
