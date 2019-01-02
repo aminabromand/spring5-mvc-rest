@@ -1,4 +1,4 @@
-package com.example.api.v1.model;
+package com.example.springmvcrestdemo.api.v1.model;
 
 public class CategoryDTO {
     private long id;
