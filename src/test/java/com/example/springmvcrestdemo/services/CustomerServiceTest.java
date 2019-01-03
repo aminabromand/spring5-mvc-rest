@@ -15,7 +15,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 public class CustomerServiceTest {
 
@@ -84,10 +86,38 @@ public class CustomerServiceTest {
         //when
         CustomerDTO savedDto = customerService.createNewCustomer(customerDTO);
 
-//then
+        //then
         assertEquals(customerDTO.getFirstname(), savedDto.getFirstname());
         assertEquals(customerDTO.getLastname(), savedDto.getLastname());
-        assertEquals("/api/v1/customer/1", savedDto.getCustomerUrl());
+        assertEquals("/api/v1/customers/1", savedDto.getCustomerUrl());
+    }
+
+    @Test
+    public void savedCustomerByDTO() throws Exception {
+        //given
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setFirstname("Jim");
+
+        Customer savedCustomer = new Customer();
+        savedCustomer.setFirstname(customerDTO.getFirstname());
+        savedCustomer.setLastname(customerDTO.getLastname());
+        savedCustomer.setId(1L);
+
+        when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
+
+        //when
+        CustomerDTO savedDto = customerService.saveCustomerByDTO(1L, customerDTO);
+
+        //then
+        assertEquals(customerDTO.getFirstname(), savedDto.getFirstname());
+        assertEquals("/api/v1/customers/1", savedDto.getCustomerUrl());
+    }
+
+    @Test
+    public void deleteCustomerById() throws Exception {
+        Long id = 1L;
+        customerRepository.deleteById(id);
+        verify(customerRepository, times(1)).deleteById(anyLong());
     }
 
 }

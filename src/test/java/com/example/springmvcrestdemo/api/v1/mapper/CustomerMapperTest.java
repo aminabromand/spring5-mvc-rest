@@ -13,7 +13,7 @@ public class CustomerMapperTest {
     public static final long ID = 1L;
 
     @Test
-    public void categoryToCategoryDTO() throws Exception {
+    public void customerToCustomerDTO() throws Exception {
 
         //given
         Customer customer = new Customer();

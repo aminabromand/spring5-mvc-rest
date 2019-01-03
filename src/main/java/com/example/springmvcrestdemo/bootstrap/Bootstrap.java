@@ -2,8 +2,10 @@ package com.example.springmvcrestdemo.bootstrap;
 
 import com.example.springmvcrestdemo.domain.Category;
 import com.example.springmvcrestdemo.domain.Customer;
+import com.example.springmvcrestdemo.domain.Vendor;
 import com.example.springmvcrestdemo.repositories.CategoryRepository;
 import com.example.springmvcrestdemo.repositories.CustomerRepository;
+import com.example.springmvcrestdemo.repositories.VendorRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,16 +14,19 @@ public class Bootstrap implements CommandLineRunner {
 
     private CategoryRepository categoryRepository;
     private CustomerRepository customerRepository;
+    private VendorRepository vendorRepository;
 
-    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
+    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository, VendorRepository vendorRepository) {
         this.categoryRepository = categoryRepository;
         this.customerRepository = customerRepository;
+        this.vendorRepository = vendorRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
         loadCategories();
         loadCustomers();
+        loadVendors();
     }
 
     private void loadCategories() {
@@ -69,5 +74,22 @@ public class Bootstrap implements CommandLineRunner {
         customerRepository.save(willy);
 
         System.out.println("Customers Loaded = " + customerRepository.count());
+    }
+
+    private void loadVendors() {
+        Vendor sam = new Vendor();
+        sam.setName("Peter");
+
+        Vendor thomson = new Vendor();
+        thomson.setName("Valerie");
+
+        Vendor willy = new Vendor();
+        willy.setName("Josephine");
+
+        vendorRepository.save(sam);
+        vendorRepository.save(thomson);
+        vendorRepository.save(willy);
+
+        System.out.println("Vendors Loaded = " + vendorRepository.count());
     }
 }
