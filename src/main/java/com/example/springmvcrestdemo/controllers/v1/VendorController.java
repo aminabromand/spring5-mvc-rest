@@ -3,11 +3,14 @@ package com.example.springmvcrestdemo.controllers.v1;
 import com.example.springmvcrestdemo.api.v1.model.VendorDTO;
 import com.example.springmvcrestdemo.api.v1.model.VendorListDTO;
 import com.example.springmvcrestdemo.services.VendorService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Api(description = "This is my Vendor Controller")
 @Controller
 @RequestMapping(VendorController.BASE_URL)
 public class VendorController {
@@ -18,6 +21,7 @@ public class VendorController {
         this.vendorService = vendorService;
     }
 
+    @ApiOperation(value = "This will get a list of vendors.", notes = "These are some notes about the API.")
     @GetMapping
     public ResponseEntity<VendorListDTO> getAllVendors() {
         return new ResponseEntity<VendorListDTO>(

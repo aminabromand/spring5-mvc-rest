@@ -16,6 +16,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -41,7 +42,7 @@ public class VendorServiceTest {
         //given
         List<Vendor> vendors = Arrays.asList(new Vendor(), new Vendor(), new Vendor());
 
-        when(vendorRepository.findAll()).thenReturn(vendors);
+        given(vendorRepository.findAll()).willReturn(vendors);
 
         //when
         List<VendorDTO> vendorDTOS = vendorService.getAllVendors();
@@ -57,7 +58,7 @@ public class VendorServiceTest {
         vendor.setId(ID);
         vendor.setName(FIRSTNAME);
 
-        when(vendorRepository.findById(anyLong())).thenReturn(Optional.of(vendor));
+        given(vendorRepository.findById(anyLong())).willReturn(Optional.of(vendor));
 
         //when
         VendorDTO vendorDTO = vendorService.getVendorById(ID);
@@ -78,7 +79,7 @@ public class VendorServiceTest {
         savedVendor.setName(vendorDTO.getName());
         savedVendor.setId(1L);
 
-        when(vendorRepository.save(any(Vendor.class))).thenReturn(savedVendor);
+        given(vendorRepository.save(any(Vendor.class))).willReturn(savedVendor);
 
         //when
         VendorDTO savedDto = vendorService.createNewVendor(vendorDTO);
@@ -98,7 +99,7 @@ public class VendorServiceTest {
         savedVendor.setName(vendorDTO.getName());
         savedVendor.setId(1L);
 
-        when(vendorRepository.save(any(Vendor.class))).thenReturn(savedVendor);
+        given(vendorRepository.save(any(Vendor.class))).willReturn(savedVendor);
 
         //when
         VendorDTO savedDto = vendorService.saveVendorByDTO(1L, vendorDTO);
